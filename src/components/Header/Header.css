@@ -1,0 +1,22 @@
+.header{
+    box-shadow: 1px -4px 18px 5px #c1bfbf;
+}
+
+.navbar .navbar-content {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.header .collapse .navbar-nav a.active,
+.header .collapse .navbar-nav .nav-item a:hover {
+    color: #5c3dad;
+}
+.header .nav-item{
+    padding: 8px;
+    font-weight: bold;
+}
+.header .nav-logo{
+    font-weight: bolder;
+    padding-right: 40px;
+}

@@ -8,13 +8,15 @@ import {userLogin} from '../../redux/UserData/userData.actions'
 
 function Login() {
 
-    const [users, setUsers] = useState({tel: null, name: ''})
-    const userInfo = useSelector((state => state.userData.info));
+    const [users, setUsers] = useState({tel: null, name: ''});
+    const [loginCheck,setLoginCheck]=useState(false);
+
+    const usersInfo = useSelector((state => state.userData.info));
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        console.log('4', userInfo)
-    }, [userInfo])
+    // useEffect(() => {
+    //     console.log('4', userInfo)
+    // }, [userInfo])
 
     function handleChange(event, type) {
         event.preventDefault();
@@ -39,7 +41,9 @@ function Login() {
 
     function login(event) {
         event.preventDefault();
-        dispatch(userLogin(users))
+        const check = usersInfo.filter(userInfo=>userInfo.name.includes(users.name) && userInfo.tel.includes(users.tel))
+        if (check.length>0) console.log('user is login')
+        else dispatch(userLogin(users))
     }
 
     return (
@@ -49,7 +53,7 @@ function Login() {
                     <img src={LogoImage} alt="" className="login-image"/>
                     <div className="login-content">
                         <div className="login-header">
-                            <p className="login-logo">login header</p>
+                            <p className="login-logo">Attendance System</p>
                             <p>sign in to your account</p>
                         </div>
                         <div className="center">

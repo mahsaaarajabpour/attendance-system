@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useState} from "react";
 import PageHOC from "../../components/HOC";
 import './Login.css'
 import LogoImage from '../../assets/image/1.jpg'
@@ -9,7 +9,7 @@ import {userLogin} from '../../redux/UserData/userData.actions'
 function Login() {
 
     const [users, setUsers] = useState({tel: null, name: ''});
-    const [loginCheck,setLoginCheck]=useState(false);
+    // const [loginCheck,setLoginCheck]=useState(false);
 
     const usersInfo = useSelector((state => state.userData.info));
     const dispatch = useDispatch();
@@ -53,13 +53,13 @@ function Login() {
                     <img src={LogoImage} alt="" className="login-image"/>
                     <div className="login-content">
                         <div className="login-header">
-                            <p className="login-logo">Attendance System</p>
+                            <p className="login-logo">Timepickers</p>
                             <p>sign in to your account</p>
                         </div>
                         <div className="center">
                             <form className="" onSubmit={login}>
                                 <div className="form-group input-group">
-                                    <input className="form-control" type="number"
+                                    <input className="form-control" type="tex"
                                            placeholder="phone"
                                            onChange={event => handleChange(event, 'tel')}
                                            required

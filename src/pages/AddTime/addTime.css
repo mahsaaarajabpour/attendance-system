@@ -1,0 +1,43 @@
+.add-time{
+    margin: 50px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.container{
+    display:flex;
+    height: 90vh;
+    align-items: center;
+}
+.contents{
+    margin:auto;
+    text-align: center;
+    align-self: center;
+}
+#given{
+    margin: 20px auto;
+}
+#output{
+    margin:auto;
+}
+.card{
+    /*min-width: 600px;*/
+    padding: 20px;
+    background-color:rgba(1,1,1, .01);
+}
+.output{
+    background-color:rgba(1,1,1, .1);
+}
+button{
+    margin-top:20px;
+}
+.timePickers{
+    max-width:400px;
+    margin: auto;
+}
+.picker{
+    margin: 5px;
+}
+#remote{
+    margin: 7px 2px 0 11px;
+}

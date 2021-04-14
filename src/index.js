@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.min'
 import 'popper.js/dist/popper.min'
+import 'jquery/dist/jquery.min'
 import '@fortawesome/fontawesome-free/css/all.css'
 
 import {Provider} from 'react-redux'

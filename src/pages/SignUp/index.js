@@ -10,7 +10,7 @@ import {NavLink} from "react-router-dom";
 function SignUp() {
 
     const [users, setUsers] = useState({tel: null, name: ''});
-    // const [loginCheck,setLoginCheck]=useState(false);
+    const [isRegistered, setIsRegistered] = useState(false);
     const usersInfo = useSelector((state => state.userData.info));
     const dispatch = useDispatch();
 
@@ -32,14 +32,25 @@ function SignUp() {
             default:
                 return users
         }
+    }
 
+    function emptyInput() {
+        Array.from(document.querySelectorAll("input")).forEach(
+            (input) => (input.value = "")
+        );
     }
 
     function signUp(event) {
         event.preventDefault();
-        const check = usersInfo.filter(userInfo => userInfo.name.includes(users.name) && userInfo.tel.includes(users.tel))
-        if (check.length > 0) console.log('sign-up')
-        else dispatch(userSignUp(users))
+        const check = usersInfo.filter(userInfo =>
+            (userInfo.name.includes(users.name) && userInfo.tel.includes(users.tel)) ||
+            (userInfo.tel.includes(users.tel)))
+        if (check.length > 0) setIsRegistered(true)
+        else {
+            setIsRegistered(false)
+            dispatch(userSignUp(users))
+            emptyInput()
+        }
     }
 
     return (
@@ -52,6 +63,7 @@ function SignUp() {
                             <p className="sign-up-logo">Timepickers</p>
                             <p>create account</p>
                         </div>
+                        {isRegistered && <p className="alert-danger">you are already registered</p>}
                         <div className="center">
                             <form className="" onSubmit={signUp}>
                                 <div className="form-group input-group">
@@ -72,7 +84,8 @@ function SignUp() {
                                     <button type="submit"
                                             className="btn btn-secondary col-lg-12 col-md-12 col-sm-12">Sign Up
                                     </button>
-                                    <p className="p-link">Do you have an account? <NavLink to="/login">click here</NavLink></p>
+                                    <p className="p-link">Do you have an account? <NavLink to="/login">login
+                                        here</NavLink></p>
                                 </div>
                             </form>
                         </div>

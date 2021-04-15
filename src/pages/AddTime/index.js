@@ -1,16 +1,16 @@
 import React, {useEffect, useRef, useState} from "react";
 import PageHOC from "../../components/HOC";
 import './addTime.css'
-import {useDispatch,useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {addTask} from "../../redux/userTasks/tasks.action";
 
 function AddTime() {
 
     const [currentTime, setCurrentTime] = useState('')
-    const [timeInfo, setTimeInfo] = useState({remote:'no', description: ''})
+    const [timeInfo, setTimeInfo] = useState({remote: 'no', description: ''})
     const [tasks, setTasks] = useState([])
     const dispatch = useDispatch();
-    const userInfo=useSelector(state => state.userData.info)
+    const userInfo = useSelector(state => state.userData.info)
 
 
     const Hours = () => {
@@ -32,10 +32,12 @@ function AddTime() {
         Time()
     })
 
-    const unMounted=useRef(false);
+    const unMounted = useRef(false);
     useEffect(() => {
-        return ()=> {unMounted.current = true;};
-    },[]);
+        return () => {
+            unMounted.current = true;
+        };
+    }, []);
 
     function Time() {
         const updateTime = () => {
@@ -63,8 +65,8 @@ function AddTime() {
         switch (eventType) {
             case 'remotely':
                 let remote
-                if (event.target.checked) remote='yes'
-                else remote='no'
+                if (event.target.checked) remote = 'yes'
+                else remote = 'no'
                 return setTimeInfo({
                     ...timeInfo,
                     remote: remote
@@ -112,9 +114,20 @@ function AddTime() {
 
     function addTime(event) {
         event.preventDefault();
-        let x = tasks.concat(timeInfo)
+
+        console.log('c', timeInfo)
+        let z={
+            ...timeInfo,
+            name: userInfo[userInfo.length - 1].name,
+            tel: userInfo[userInfo.length - 1].tel
+        }
+        setTimeInfo(z)
+
+        let x = tasks.concat(z)
+
+        console.log('3', z)
         setTasks(x)
-        dispatch(addTask(timeInfo))
+        dispatch(addTask(z))
     }
 
     return (
@@ -134,7 +147,7 @@ function AddTime() {
                         </div> :
 
                         <div className='card' id='given'><p>
-                            <b>hi {userInfo[userInfo.length-1].name}</b>
+                            <b>hi {userInfo[userInfo.length - 1].name}</b>
                         </p>
                             <form onSubmit={addTime}>
 

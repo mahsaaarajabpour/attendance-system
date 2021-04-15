@@ -1,6 +1,6 @@
 import * as actionTypes from './userData.actionTypes'
 
-export const userLogin = (value) => {
+export const userSignUp = (value) => {
     return dispatch => {
         dispatch(
             saveInfo(value)
@@ -9,7 +9,7 @@ export const userLogin = (value) => {
 }
 export const saveInfo = (value) => {
     return {
-        type: actionTypes.LOGIN,
+        type: actionTypes.SIGN_UP,
         value
     }
 }

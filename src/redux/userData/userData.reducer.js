@@ -7,7 +7,7 @@ const initialState = {
 const userDataReducer = (state = initialState, action) => {
     // eslint-disable-next-line default-case
     switch (action.type) {
-        case actionTypes.LOGIN:
+        case actionTypes.SIGN_UP:
             return {
                 ...state,
                 info: state.info.concat(action.value)

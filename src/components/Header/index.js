@@ -14,7 +14,7 @@ function Header() {
                 <div className="navbar-content">
                     <ul className="navbar-nav">
                         <li className="nav-item">
-                            <NavLink className="nav-link" to="/" exact>Login</NavLink>
+                            <NavLink className="nav-link" to="/" exact>Sign Up</NavLink>
                         </li>
                         <li className="nav-item">
                             <NavLink className="nav-link" to="/record">Record Times</NavLink>

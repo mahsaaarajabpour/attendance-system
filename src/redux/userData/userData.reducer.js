@@ -2,6 +2,7 @@ import * as actionTypes from './userData.actionTypes'
 
 const initialState = {
     info: [],
+    userLoginInfo: []
 }
 
 const userDataReducer = (state = initialState, action) => {
@@ -11,6 +12,11 @@ const userDataReducer = (state = initialState, action) => {
             return {
                 ...state,
                 info: state.info.concat(action.value)
+            }
+        case actionTypes.LOGIN:
+            return {
+                ...state,
+                userLoginInfo: action.value
             }
     }
     return state

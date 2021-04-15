@@ -4,6 +4,7 @@ import './signUp.css'
 import LogoImage from '../../assets/image/1.jpg'
 import {useDispatch, useSelector} from "react-redux";
 import {userSignUp} from '../../redux/userData/userData.actions'
+import {NavLink} from "react-router-dom";
 
 
 function SignUp() {
@@ -71,7 +72,7 @@ function SignUp() {
                                     <button type="submit"
                                             className="btn btn-secondary col-lg-12 col-md-12 col-sm-12">Sign Up
                                     </button>
-                                    <p className="p-link">Do you have an account? <a href="/login">click here</a></p>
+                                    <p className="p-link">Do you have an account? <NavLink to="/login">click here</NavLink></p>
                                 </div>
                             </form>
                         </div>

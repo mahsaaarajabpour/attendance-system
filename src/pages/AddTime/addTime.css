@@ -42,3 +42,9 @@ button{
 #remote{
     margin: 7px 2px 0 11px;
 }
+.time-login-panel{
+    background-color: #dbdcde;
+    border-radius: 15px;
+    box-shadow: 0px 0px 17px 7px #f5f2f2;
+
+}

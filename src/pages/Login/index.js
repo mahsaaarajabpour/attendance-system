@@ -3,7 +3,7 @@ import PageHOC from "../../components/HOC";
 import './Login.css'
 import LogoImage from '../../assets/image/1.jpg'
 import {useDispatch, useSelector} from "react-redux";
-import {userLogin} from '../../redux/UserData/userData.actions'
+import {userLogin} from '../../redux/userData/userData.actions'
 
 
 function Login() {

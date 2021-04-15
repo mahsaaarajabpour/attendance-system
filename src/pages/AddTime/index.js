@@ -1,12 +1,15 @@
 import React, {useEffect, useState} from "react";
 import PageHOC from "../../components/HOC";
 import './addTime.css'
+import {useDispatch} from "react-redux";
+import {addTask} from "../../redux/userTasks/tasks.action";
 
 function AddTime() {
 
     const [currentTime, setCurrentTime] = useState('')
     const [timeInfo, setTimeInfo] = useState({remote: false, description: ''})
     const [tasks, setTasks] = useState([])
+    const dispatch = useDispatch();
 
 
     const Hours = () => {
@@ -107,12 +110,17 @@ function AddTime() {
         event.preventDefault();
         let x = tasks.concat(timeInfo)
         setTasks(x)
+        dispatch(addTask(timeInfo))
     }
 
     return (
         <PageHOC>
             <div className="add-time">
                 <div className="contents col-md-8">
+                    <div className='card output'>
+                        <p><b>Local Time: </b>{currentTime}</p>
+                    </div>
+
                     <div className='card' id='given'><p><b>Given Time:</b></p><p id='input'></p>
                         <form onSubmit={addTime}>
 
@@ -150,8 +158,6 @@ function AddTime() {
                                         <option key={value} value={value}>{value}</option>
                                     )}
                                 </select>
-
-                                {/*{renderTimes("endHourSelector",1,24,'Hour')}*/}
                             </div>
 
                             {/*description*/}
@@ -180,11 +186,6 @@ function AddTime() {
                             <button type="submit" className="btn btn-secondary">Submit</button>
                         </form>
                     </div>
-
-                    <div className='card output'>
-                        <p><b>Local Time: </b>{currentTime}</p>
-                    </div>
-
                 </div>
             </div>
         </PageHOC>

@@ -3,6 +3,7 @@ import {Route, Switch,} from "react-router-dom";
 
 const Login = React.lazy(() => import('../pages/Login'))
 const AddTime = React.lazy(() => import('../pages/AddTime'))
+const Report = React.lazy(() => import('../pages/Report'))
 
 
 const Routes = () => {
@@ -18,6 +19,11 @@ const Routes = () => {
                        render={() =>
                            <Suspense fallback={<div>loading</div>}>
                                <AddTime/>
+                           </Suspense>}/>
+                <Route exact path="/report"
+                       render={() =>
+                           <Suspense fallback={<div>loading</div>}>
+                               <Report/>
                            </Suspense>}/>
             </Switch>
         </React.Fragment>

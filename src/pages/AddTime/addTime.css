@@ -26,7 +26,8 @@
     background-color:rgba(1,1,1, .01);
 }
 .output{
-    background-color:rgba(1,1,1, .1);
+    background: rgb(154,110,166);
+    background: linear-gradient(90deg, rgba(154,110,166,0.7679446778711485) 26%, rgba(166,166,166,1) 83%);
 }
 button{
     margin-top:20px;

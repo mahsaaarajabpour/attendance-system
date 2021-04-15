@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import PageHOC from "../../components/HOC";
 import './addTime.css'
 import {useDispatch} from "react-redux";
@@ -7,7 +7,7 @@ import {addTask} from "../../redux/userTasks/tasks.action";
 function AddTime() {
 
     const [currentTime, setCurrentTime] = useState('')
-    const [timeInfo, setTimeInfo] = useState({remote: false, description: ''})
+    const [timeInfo, setTimeInfo] = useState({description: ''})
     const [tasks, setTasks] = useState([])
     const dispatch = useDispatch();
 
@@ -30,11 +30,11 @@ function AddTime() {
     useEffect(() => {
         Time()
     })
-    // useEffect(()=>{
-    //     // return()=>{
-    //     //     setCurrentTime('')
-    //     // }
-    // })
+
+    const unMounted=useRef(false);
+    useEffect(() => {
+        return ()=> {unMounted.current = true;};
+    },[]);
 
     function Time() {
         const updateTime = () => {
@@ -52,7 +52,7 @@ function AddTime() {
                 h = '0' + h;
             }
             let time = h + ":" + m + ':' + s;
-            setCurrentTime(time)
+            if (!unMounted.current) setCurrentTime(time)
         }
         setInterval(updateTime, 1000)
     }
@@ -61,9 +61,12 @@ function AddTime() {
         // eslint-disable-next-line default-case
         switch (eventType) {
             case 'remotely':
+                let remote
+                if (event.target.checked) remote='yes'
+                else remote='no'
                 return setTimeInfo({
                     ...timeInfo,
-                    remote: event.target.checked
+                    remote: remote
                 })
 
             case 'description':
@@ -87,18 +90,18 @@ function AddTime() {
                 break
 
             case 'minute':
-                let d = new Date();
+                // let d = new Date();
                 if (timeType === 'start') {
-                    d.setHours(timeInfo.startTime, event);
+                    // d.setHours(timeInfo.startTime, event);
                     return setTimeInfo({
                         ...timeInfo,
-                        startTime: d
+                        startTime: timeInfo.startTime + ':' + event
                     })
                 } else if (timeType === 'end') {
-                    d.setHours(timeInfo.endTime, event);
+                    // d.setHours(timeInfo.endTime, event);
                     return setTimeInfo({
                         ...timeInfo,
-                        endTime: d
+                        endTime: timeInfo.endTime + ':' + event
                     })
                 }
                 break
@@ -192,4 +195,4 @@ function AddTime() {
     )
 }
 
-export default AddTime
+export default AddTime;

@@ -1,0 +1,22 @@
+.report {
+    display: flex;
+    justify-content: center;
+    margin: 50px 10px 10px 50px;
+}
+.report .tasks-row{
+    border-bottom: 1px solid #ece9e9;
+    box-shadow: 3px 3px 7px 3px #e0e0e0;
+    margin-bottom: 23px;
+    padding: 12px;
+    background-color: #f5f5f5;
+}
+.report .card-header{
+    padding: 20px;
+    background: rgb(154,110,166);
+    background: linear-gradient(90deg, rgba(154,110,166,0.7679446778711485) 26%, rgba(166,166,166,1) 83%);
+}
+.report .task-description{
+    margin-bottom: 0;
+    font-size: 12px;
+    color: #adaba9;
+}

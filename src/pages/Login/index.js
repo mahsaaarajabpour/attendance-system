@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import PageHOC from "../../components/HOC";
 import LogoImage from "../../assets/image/1.jpg";
 import './login.css'
@@ -9,8 +9,6 @@ import {userLogin} from '../../redux/userData/userData.actions'
 function Login() {
 
     const usersInfo = useSelector((state => state.userData.info));
-    // const userLoginInfo = useSelector((state => state.userData.userLoginInfo));
-
     const [tel, setTel] = useState()
     const dispatch = useDispatch();
 
@@ -22,11 +20,14 @@ function Login() {
 
     function login(event) {
         event.preventDefault();
+
+        // eslint-disable-next-line
         const x = usersInfo.filter(item => {
-            if (item.tel === tel) return item
-            else return []
+            if (item.tel === tel) {
+                return item
+            }
         })
-        dispatch(userLogin(x))
+        dispatch(userLogin(x[0]))
     }
 
     return (

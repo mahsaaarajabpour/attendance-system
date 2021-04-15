@@ -11,7 +11,8 @@ const userDataReducer = (state = initialState, action) => {
         case actionTypes.SIGN_UP:
             return {
                 ...state,
-                info: state.info.concat(action.value)
+                info: state.info.concat(action.value),
+                userLoginInfo: action.value
             }
         case actionTypes.LOGIN:
             return {

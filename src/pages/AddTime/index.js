@@ -11,7 +11,11 @@ function AddTime() {
     const [tasks, setTasks] = useState([])
     const dispatch = useDispatch();
     const userInfo = useSelector(state => state.userData.info)
+    const userLoginInfo = useSelector(state => state.userData.userLoginInfo)
 
+    // useEffect(()=>{
+    //     console.log('userLoginInfo',userLoginInfo)
+    // },[userLoginInfo])
 
     const Hours = () => {
         let x = [];
@@ -112,22 +116,28 @@ function AddTime() {
 
     }
 
+    function emptyInput() {
+        Array.from(document.querySelectorAll("textarea")).forEach(
+            (textarea) => (textarea.value = "")
+        );
+        Array.from(document.querySelectorAll("select")).forEach(
+            (select) => (select.selectedIndex = 0)
+        );
+        document.getElementById('remote').checked = false;
+    }
+
     function addTime(event) {
         event.preventDefault();
-
-        console.log('c', timeInfo)
-        let z={
+        let z = {
             ...timeInfo,
-            name: userInfo[userInfo.length - 1].name,
-            tel: userInfo[userInfo.length - 1].tel
+            userName: userInfo[userInfo.length - 1].name,
+            userTel: userInfo[userInfo.length - 1].tel
         }
         setTimeInfo(z)
-
         let x = tasks.concat(z)
-
-        console.log('3', z)
         setTasks(x)
         dispatch(addTask(z))
+        emptyInput()
     }
 
     return (
@@ -138,16 +148,15 @@ function AddTime() {
                         <p><b>Local Time: </b>{currentTime}</p>
                     </div>
                     {userInfo.length === 0 ?
-
                         <div className="row m-5 p-2 border time-login-panel">
                             <div className="col-md-12 ">
                                 <p className="row justify-content-center">you should login first </p>
                                 <a className="row justify-content-center btn btn-secondary ml-3" href="/">login</a>
                             </div>
-                        </div> :
-
+                        </div>
+                        :
                         <div className='card' id='given'><p>
-                            <b>hi {userInfo[userInfo.length - 1].name}</b>
+                            <b>Hi, {userLoginInfo.name} !</b>
                         </p>
                             <form onSubmit={addTime}>
 

@@ -10,7 +10,9 @@
 
 .header .collapse .navbar-nav a.active,
 .header .collapse .navbar-nav .nav-item a:hover {
-    color: #5c3dad;
+    /*color: #5c3dad;*/
+    /*color: #856e61;*/
+    color: #65524a;
 }
 .header .nav-item{
     padding: 8px;

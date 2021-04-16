@@ -16,7 +16,6 @@ function AddTime() {
     const [currentDay, setCurrentDay] = useState('')
     const [timeInfo, setTimeInfo] = useState({remote: 'no', description: ''})
     const [tasks, setTasks] = useState([])
-    // const [addedTime, setAddedTime] = useState(false)
     const [checkShortTime, setCheckShortTime] = useState(false)
 
     const Hours = () => {
@@ -92,30 +91,45 @@ function AddTime() {
                     description: event.target.value
                 })
 
-            case 'hour':
-                if (timeType === 'start') {
+            case 'start':
+                if (timeType==='hour') {
                     return setTimeInfo({
                         ...timeInfo,
-                        startTime: event
+                        startTime: {
+                            ...timeInfo.startTime,
+                            hour: event
+                        }
+
                     })
-                } else if (timeType === 'end') {
+                }else if (timeType==='minute') {
                     return setTimeInfo({
                         ...timeInfo,
-                        endTime: event
+                        startTime: {
+                            ...timeInfo.startTime,
+                            minute: event
+                        }
+
                     })
                 }
                 break
 
-            case 'minute':
-                if (timeType === 'start') {
+            case 'end':
+                if (timeType==='hour') {
                     return setTimeInfo({
                         ...timeInfo,
-                        startTime: timeInfo.startTime + ':' + event
+                        endTime: {
+                            ...timeInfo.endTime,
+                            hour: event
+                        }
+
                     })
-                } else if (timeType === 'end') {
+                }else if (timeType==='minute') {
                     return setTimeInfo({
                         ...timeInfo,
-                        endTime: timeInfo.endTime + ':' + event
+                        endTime: {
+                            ...timeInfo.endTime,
+                            minute: event
+                        }
                     })
                 }
                 break
@@ -136,10 +150,12 @@ function AddTime() {
     function addTime(event) {
         event.preventDefault();
 
-        const a = moment.duration(timeInfo.startTime);
-        const b = moment.duration(timeInfo.endTime)
+        const a = moment.duration(timeInfo.startTime.hour + ':' + timeInfo.startTime.minute );
+        const b = moment.duration(timeInfo.endTime.hour + ':' + timeInfo.endTime.minute)
+
         const computedT = b.subtract(a)
         if (computedT<600000) {
+
             setCheckShortTime(true)
             Array.from(document.querySelectorAll("select")).forEach(
                 (select) => (select.selectedIndex = 0)
@@ -203,7 +219,7 @@ function AddTime() {
                                     <div className="form-row justify-content-center timePickers start-time">
                                         <select className="custom-select col-md-4 col-sm-12 picker"
                                                 id="startHourSelector"
-                                                onChange={event => handleItems(event.target.value, 'hour', 'start')}>
+                                                onChange={event => handleItems(event.target.value, 'start', 'hour')}>
                                             <option>Hour</option>
                                             {Hours().map((value) =>
                                                 <option key={value} value={value}>{value}</option>
@@ -211,7 +227,7 @@ function AddTime() {
                                         </select>
                                         <select className="custom-select col-md-4 col-sm-12 picker"
                                                 id="startMinuteSelector"
-                                                onChange={event => handleItems(event.target.value, 'minute', 'start')}>
+                                                onChange={event => handleItems(event.target.value, 'start', 'minute')}>
                                             <option defaultValue="Minute">Minute</option>
                                             {Minutes().map((value) =>
                                                 <option key={value} value={value}>{value}</option>
@@ -223,7 +239,7 @@ function AddTime() {
                                     <div className="form-row justify-content-center timePickers end-time">
                                         <select className="custom-select col-md-4 col-sm-12 picker"
                                                 id="endHourSelector"
-                                                onChange={event => handleItems(event.target.value, 'hour', 'end')}>
+                                                onChange={event => handleItems(event.target.value, 'end', 'hour')}>
                                             <option defaultValue="Hour">Hour</option>
                                             {Hours().map((value) =>
                                                 <option key={value} value={value}>{value}</option>
@@ -231,7 +247,7 @@ function AddTime() {
                                         </select>
                                         <select className="custom-select col-md-4 col-sm-12 picker"
                                                 id="endMinuteSelector"
-                                                onChange={event => handleItems(event.target.value, 'minute', 'end')}>
+                                                onChange={event => handleItems(event.target.value, 'end', 'minute')}>
                                             <option>Minute</option>
                                             {Minutes().map((value) =>
                                                 <option key={value} value={value}>{value}</option>

@@ -18,8 +18,8 @@ function Report() {
                         {tasks.length > 0 ?
                             tasks.map((task, index) => <div key={index} className="tasks-row">
                                 <div className="row border-bottom">
-                                    <p className="col-md-4"><b>start time :</b> {task.startTime}</p>
-                                    <p className="col-md-4"><b>end time :</b> {task.endTime}</p>
+                                    <p className="col-md-4"><b>start time :</b> {task.startTime.hour + ':' + task.startTime.minute}</p>
+                                    <p className="col-md-4"><b>end time :</b> {task.endTime.hour + ':' + task.endTime.minute}</p>
                                     <p className="col-md-4"><b>remotely :</b> {task.remote}</p>
                                 </div>
                                 <div className="row">

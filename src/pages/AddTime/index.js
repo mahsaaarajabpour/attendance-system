@@ -8,12 +8,15 @@ import {userLogOut} from "../../redux/userData/userData.actions";
 
 function AddTime() {
 
-    const [currentTime, setCurrentTime] = useState('')
-    const [timeInfo, setTimeInfo] = useState({remote: 'no', description: ''})
-    const [tasks, setTasks] = useState([])
     const dispatch = useDispatch();
     const userInfo = useSelector(state => state.userData.info)
     const userLoginInfo = useSelector(state => state.userData.userLoginInfo)
+
+    const [currentTime, setCurrentTime] = useState('')
+    const [currentDay, setCurrentDay] = useState('')
+    const [timeInfo, setTimeInfo] = useState({remote: 'no', description: ''})
+    const [tasks, setTasks] = useState([])
+    // const [addedTime, setAddedTime] = useState(false)
 
     const Hours = () => {
         let x = [];
@@ -42,6 +45,8 @@ function AddTime() {
     }, []);
 
     function Time() {
+        let days = ['یکشنبه', 'دوشنبه', 'سه شنبه', 'چهارشنبه', 'پنج شنبه', 'جمعه', 'شنبه'];
+
         const updateTime = () => {
             let today = new Date();
             let h = today.getHours();
@@ -57,7 +62,11 @@ function AddTime() {
                 h = '0' + h;
             }
             let time = h + ":" + m + ':' + s;
-            if (!unMounted.current) setCurrentTime(time)
+            if (!unMounted.current) {
+                setCurrentTime(time)
+                let dayName = days[today.getDay()];
+                setCurrentDay(dayName)
+            }
         }
         setInterval(updateTime, 1000)
     }
@@ -133,8 +142,10 @@ function AddTime() {
         setTasks(x)
         dispatch(addTask(z))
         emptyInput()
+        // setAddedTime(true)
     }
-    function logOut(){
+
+    function logOut() {
         dispatch(userLogOut())
     }
 
@@ -144,83 +155,98 @@ function AddTime() {
                 <div className="contents col-md-8">
                     <div className="card output">
                         <p><b>Local Time: </b>{currentTime}</p>
+                        <p>{currentDay}</p>
                     </div>
-                    {userLoginInfo.length === 0 ?
-                        <div className="row m-5 p-2 border time-login-panel">
+                    {currentDay === 'جمعه' || currentDay === 'پنج شنبه' ?
+                        <div className="row m-5 p-2 border time-login-panel border border-danger">
                             <div className="col-md-12 ">
-                                <p className="row justify-content-center">you should login first </p>
-                                <NavLink className="row justify-content-center btn btn-secondary ml-3" to="/">login</NavLink>
+                                <p className="row justify-content-center m-3 ">Sorry, today is a holiday.</p>
                             </div>
                         </div>
                         :
-                        <div className="card" id="given">
-                            <p><b className="mr-3">Hi, {userLoginInfo.name} !</b>
-                            <NavLink className="p-link" to="/login" onClick={logOut}>Do you want to logout?</NavLink>
-                            </p>
-                            <form onSubmit={addTime}>
-
-                                {/*start*/}
-                                <div className="form-row justify-content-center timePickers start-time">
-                                    <select className="custom-select col-md-4 col-sm-12 picker" id="startHourSelector"
-                                            onChange={event => handleItems(event.target.value, 'hour', 'start')}>
-                                        <option>Hour</option>
-                                        {Hours().map((value) =>
-                                            <option key={value} value={value}>{value}</option>
-                                        )}
-                                    </select>
-                                    <select className="custom-select col-md-4 col-sm-12 picker" id="startMinuteSelector"
-                                            onChange={event => handleItems(event.target.value, 'minute', 'start')}>
-                                        <option defaultValue="Minute">Minute</option>
-                                        {Minutes().map((value) =>
-                                            <option key={value} value={value}>{value}</option>
-                                        )}
-                                    </select>
+                        userLoginInfo.length === 0 ?
+                            <div className="row m-5 p-2 border time-login-panel">
+                                <div className="col-md-12 ">
+                                    <p className="row justify-content-center">you should login first </p>
+                                    <NavLink className="row justify-content-center btn btn-secondary ml-3"
+                                             to="/login"
+                                    >login</NavLink>
                                 </div>
+                            </div>
+                            :
+                            <div className="card-content" id="given">
+                                <p><b className="mr-3">Hi, {userLoginInfo.name} !</b>
+                                    <NavLink className="p-link" to="/login" onClick={logOut}>Do you want to
+                                        logout?</NavLink>
+                                </p>
+                                <form onSubmit={addTime}>
 
-                                {/*end*/}
-                                <div className="form-row justify-content-center timePickers end-time">
-                                    <select className="custom-select col-md-4 col-sm-12 picker" id="endHourSelector"
-                                            onChange={event => handleItems(event.target.value, 'hour', 'end')}>
-                                        <option defaultValue="Hour">Hour</option>
-                                        {Hours().map((value) =>
-                                            <option key={value} value={value}>{value}</option>
-                                        )}
-                                    </select>
-                                    <select className="custom-select col-md-4 col-sm-12 picker" id="endMinuteSelector"
-                                            onChange={event => handleItems(event.target.value, 'minute', 'end')}>
-                                        <option>Minute</option>
-                                        {Minutes().map((value) =>
-                                            <option key={value} value={value}>{value}</option>
-                                        )}
-                                    </select>
-                                </div>
+                                    {/*start*/}
+                                    <div className="form-row justify-content-center timePickers start-time">
+                                        <select className="custom-select col-md-4 col-sm-12 picker"
+                                                id="startHourSelector"
+                                                onChange={event => handleItems(event.target.value, 'hour', 'start')}>
+                                            <option>Hour</option>
+                                            {Hours().map((value) =>
+                                                <option key={value} value={value}>{value}</option>
+                                            )}
+                                        </select>
+                                        <select className="custom-select col-md-4 col-sm-12 picker"
+                                                id="startMinuteSelector"
+                                                onChange={event => handleItems(event.target.value, 'minute', 'start')}>
+                                            <option defaultValue="Minute">Minute</option>
+                                            {Minutes().map((value) =>
+                                                <option key={value} value={value}>{value}</option>
+                                            )}
+                                        </select>
+                                    </div>
 
-                                {/*description*/}
-                                <div className="form-row justify-content-center timePickers">
+                                    {/*end*/}
+                                    <div className="form-row justify-content-center timePickers end-time">
+                                        <select className="custom-select col-md-4 col-sm-12 picker"
+                                                id="endHourSelector"
+                                                onChange={event => handleItems(event.target.value, 'hour', 'end')}>
+                                            <option defaultValue="Hour">Hour</option>
+                                            {Hours().map((value) =>
+                                                <option key={value} value={value}>{value}</option>
+                                            )}
+                                        </select>
+                                        <select className="custom-select col-md-4 col-sm-12 picker"
+                                                id="endMinuteSelector"
+                                                onChange={event => handleItems(event.target.value, 'minute', 'end')}>
+                                            <option>Minute</option>
+                                            {Minutes().map((value) =>
+                                                <option key={value} value={value}>{value}</option>
+                                            )}
+                                        </select>
+                                    </div>
+
+                                    {/*description*/}
+                                    <div className="form-row justify-content-center timePickers">
                                 <textarea className="form-control col-md-8 picker"
                                           rows="3"
                                           placeholder="description"
                                           required
                                           onChange={event => handleItems(event, 'description')}
                                 ></textarea>
-                                </div>
+                                    </div>
 
-                                {/*remote*/}
-                                <div className="form-row justify-content-center timePickers">
-                                    <label>
-                                        <span className="label-text">Do you working remotely?</span>
-                                        <input type="checkbox"
-                                               name="remotely"
-                                               id="remote"
-                                               onChange={event => handleItems(event, 'remotely')}
-                                        />
-                                    </label>
-                                </div>
+                                    {/*remote*/}
+                                    <div className="form-row justify-content-center timePickers">
+                                        <label>
+                                            <span className="label-text">Do you working remotely?</span>
+                                            <input type="checkbox"
+                                                   name="remotely"
+                                                   id="remote"
+                                                   onChange={event => handleItems(event, 'remotely')}
+                                            />
+                                        </label>
+                                    </div>
 
-                                {/*submit*/}
-                                <button type="submit" className="btn btn-secondary">Submit</button>
-                            </form>
-                        </div>
+                                    {/*submit*/}
+                                    <button type="submit" className="btn btn-secondary m-1">Submit</button>
+                                </form>
+                            </div>
                     }
                 </div>
             </div>

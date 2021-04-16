@@ -21,13 +21,25 @@
     margin:auto;
 }
 .card{
-    /*min-width: 600px;*/
     padding: 20px;
     background-color:rgba(1,1,1, .01);
 }
+.add-time .card-content{
+    /*position: relative;*/
+    /*display: flex;*/
+    /*flex-direction: column;*/
+    min-width: 0;
+    /*word-wrap: break-word;*/
+    /*background-color: #fff;*/
+    padding: 20px;
+    background-color: rgba(1,1,1, .01);
+    background-clip: border-box;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+}
 .output{
     background: rgb(166,78,190);
-    background: radial-gradient(circle, rgba(166,78,190,0.4542191876750701) 10%, rgba(207,202,202,1) 73%);
+    background: radial-gradient(circle, rgba(166,78,190,0.3113620448179272) 10%, rgba(219,220,222,1) 73%);
 }
 button{
     margin-top:20px;

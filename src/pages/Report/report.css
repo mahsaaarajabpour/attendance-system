@@ -13,7 +13,7 @@
 .report .card-header{
     padding: 20px;
     background: rgb(166,78,190);
-    background: radial-gradient(circle, rgba(166,78,190,0.4542191876750701) 10%, rgba(207,202,202,1) 73%);
+    background: radial-gradient(circle, rgba(166,78,190,0.3113620448179272) 10%, rgba(219,220,222,1) 73%);
 }
 .report .task-description{
     margin-bottom: 0;

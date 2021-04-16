@@ -49,11 +49,35 @@
     outline: none;
 }
 
-.login .p-link {
+.login .link-suggestion {
     margin-top: 15px;
     font-size: 12px;
 }
 
-.login .p-link a {
+.login .p-link {
     color: blue;
+}
+
+.login .welcome-form{
+    background-color: #dbdcde;
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    animation-duration: 2s;
+    position: relative;
+    animation-name: welcome-form;
+}
+@keyframes welcome-form {
+    0%{
+        opacity: 0;
+        top: -50px;
+    }
+
+    100%{
+        opacity: 1;
+        top: 0;
+    }
 }

@@ -5,11 +5,11 @@ import {useDispatch, useSelector} from "react-redux";
 import {addTask} from "../../redux/userTasks/tasks.action";
 import {NavLink} from "react-router-dom";
 import {userLogOut} from "../../redux/userData/userData.actions";
+import moment from "moment";
 
 function AddTime() {
 
     const dispatch = useDispatch();
-    const userInfo = useSelector(state => state.userData.info)
     const userLoginInfo = useSelector(state => state.userData.userLoginInfo)
 
     const [currentTime, setCurrentTime] = useState('')
@@ -17,18 +17,21 @@ function AddTime() {
     const [timeInfo, setTimeInfo] = useState({remote: 'no', description: ''})
     const [tasks, setTasks] = useState([])
     // const [addedTime, setAddedTime] = useState(false)
+    const [checkShortTime, setCheckShortTime] = useState(false)
 
     const Hours = () => {
         let x = [];
         for (let i = 1; i <= 24; i++) {
-            x.push(i)
+            if (i < 10) x.push('0' + i)
+            else x.push(i)
         }
         return x
     }
     const Minutes = () => {
         let x = [];
         for (let i = 0; i <= 60; i++) {
-            x.push(i)
+            if (i < 10) x.push('0' + i)
+            else x.push(i)
         }
         return x
     }
@@ -132,17 +135,30 @@ function AddTime() {
 
     function addTime(event) {
         event.preventDefault();
-        let z = {
-            ...timeInfo,
-            userName: userLoginInfo.name,
-            userTel: userLoginInfo.tel
+
+        const a = moment.duration(timeInfo.startTime);
+        const b = moment.duration(timeInfo.endTime)
+        const computedT = b.subtract(a)
+        if (computedT<600000) {
+            setCheckShortTime(true)
+            Array.from(document.querySelectorAll("select")).forEach(
+                (select) => (select.selectedIndex = 0)
+            );
         }
-        setTimeInfo(z)
-        let x = tasks.concat(z)
-        setTasks(x)
-        dispatch(addTask(z))
-        emptyInput()
-        // setAddedTime(true)
+        else {
+            setCheckShortTime(false)
+
+            let task = {
+                ...timeInfo,
+                userName: userLoginInfo.name,
+                userTel: userLoginInfo.tel
+            }
+            let value = tasks.concat(task)
+            setTasks(value)
+            dispatch(addTask(task))
+            emptyInput()
+            setTimeInfo({remote: 'no', description: ''})
+        }
     }
 
     function logOut() {
@@ -169,7 +185,7 @@ function AddTime() {
                                 <div className="col-md-12 ">
                                     <p className="row justify-content-center">you should login first </p>
                                     <NavLink className="row justify-content-center btn btn-secondary ml-3"
-                                             to="/login"
+                                             to="/"
                                     >login</NavLink>
                                 </div>
                             </div>
@@ -179,6 +195,8 @@ function AddTime() {
                                     <NavLink className="p-link" to="/login" onClick={logOut}>Do you want to
                                         logout?</NavLink>
                                 </p>
+
+                                {checkShortTime && <p className="alert-danger">Your end time is less than 10 minutes!</p>}
                                 <form onSubmit={addTime}>
 
                                     {/*start*/}

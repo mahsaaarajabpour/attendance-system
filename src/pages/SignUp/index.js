@@ -67,8 +67,9 @@ function SignUp() {
                         <div className="center">
                             <form className="" onSubmit={signUp}>
                                 <div className="form-group input-group">
-                                    <input className="form-control" type="tex"
+                                    <input className="form-control" type="tel"
                                            placeholder="phone"
+                                           pattern="[0-9]{4}[0-9]{3}[0-9]{4}"
                                            onChange={event => handleChange(event, 'tel')}
                                            required
                                     />

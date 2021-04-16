@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import PageHOC from "../../components/HOC";
 import './report.css';
 import {useSelector} from "react-redux";
@@ -6,9 +6,6 @@ import {useSelector} from "react-redux";
 function Report() {
     const tasks = useSelector(state => state.userTasks.tasks);
 
-    // useEffect(() => {
-    //     console.log('tasks', tasks)
-    // }, [tasks])
     return (
         <PageHOC>
             <div className="report">

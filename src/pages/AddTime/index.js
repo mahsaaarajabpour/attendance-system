@@ -134,8 +134,8 @@ function AddTime() {
         event.preventDefault();
         let z = {
             ...timeInfo,
-            userName: userInfo[userInfo.length - 1].name,
-            userTel: userInfo[userInfo.length - 1].tel
+            userName: userLoginInfo.name,
+            userTel: userLoginInfo.tel
         }
         setTimeInfo(z)
         let x = tasks.concat(z)

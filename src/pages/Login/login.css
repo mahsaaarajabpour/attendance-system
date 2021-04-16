@@ -28,7 +28,9 @@
     align-items: center;
     position: absolute;
     z-index: 0;
-    height: -webkit-fill-available;
+    height: 100%;
+    height: -moz-available;
+    height: -webkit-fill-available,fill-available;
 }
 
 .login .login-header {

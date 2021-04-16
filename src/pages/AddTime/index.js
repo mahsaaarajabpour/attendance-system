@@ -17,6 +17,7 @@ function AddTime() {
     const [timeInfo, setTimeInfo] = useState({remote: 'no', description: ''})
     const [tasks, setTasks] = useState([])
     const [checkShortTime, setCheckShortTime] = useState(false)
+    const [checkEntryTime, setCheckEntryTime] = useState(true)
 
     const Hours = () => {
         let x = [];
@@ -92,7 +93,7 @@ function AddTime() {
                 })
 
             case 'start':
-                if (timeType==='hour') {
+                if (timeType === 'hour') {
                     return setTimeInfo({
                         ...timeInfo,
                         startTime: {
@@ -101,7 +102,7 @@ function AddTime() {
                         }
 
                     })
-                }else if (timeType==='minute') {
+                } else if (timeType === 'minute') {
                     return setTimeInfo({
                         ...timeInfo,
                         startTime: {
@@ -114,7 +115,7 @@ function AddTime() {
                 break
 
             case 'end':
-                if (timeType==='hour') {
+                if (timeType === 'hour') {
                     return setTimeInfo({
                         ...timeInfo,
                         endTime: {
@@ -123,7 +124,7 @@ function AddTime() {
                         }
 
                     })
-                }else if (timeType==='minute') {
+                } else if (timeType === 'minute') {
                     return setTimeInfo({
                         ...timeInfo,
                         endTime: {
@@ -149,32 +150,31 @@ function AddTime() {
 
     function addTime(event) {
         event.preventDefault();
+        if (timeInfo.startTime && timeInfo.endTime) {
+            const a = moment.duration(timeInfo.startTime.hour + ':' + timeInfo.startTime.minute);
+            const b = moment.duration(timeInfo.endTime.hour + ':' + timeInfo.endTime.minute)
+            const computedT = b.subtract(a)
 
-        const a = moment.duration(timeInfo.startTime.hour + ':' + timeInfo.startTime.minute );
-        const b = moment.duration(timeInfo.endTime.hour + ':' + timeInfo.endTime.minute)
-
-        const computedT = b.subtract(a)
-        if (computedT<600000) {
-
-            setCheckShortTime(true)
-            Array.from(document.querySelectorAll("select")).forEach(
-                (select) => (select.selectedIndex = 0)
-            );
-        }
-        else {
-            setCheckShortTime(false)
-
-            let task = {
-                ...timeInfo,
-                userName: userLoginInfo.name,
-                userTel: userLoginInfo.tel
+            if (computedT < 600000) {
+                setCheckShortTime(true)
+                Array.from(document.querySelectorAll("select")).forEach(
+                    (select) => (select.selectedIndex = 0)
+                );
+            } else {
+                setCheckShortTime(false)
+                setCheckEntryTime(true)
+                let task = {
+                    ...timeInfo,
+                    userName: userLoginInfo.name,
+                    userTel: userLoginInfo.tel
+                }
+                let value = tasks.concat(task)
+                setTasks(value)
+                dispatch(addTask(task))
+                emptyInput()
+                setTimeInfo({remote: 'no', description: ''})
             }
-            let value = tasks.concat(task)
-            setTasks(value)
-            dispatch(addTask(task))
-            emptyInput()
-            setTimeInfo({remote: 'no', description: ''})
-        }
+        } else setCheckEntryTime(false)
     }
 
     function logOut() {
@@ -213,6 +213,8 @@ function AddTime() {
                                 </p>
 
                                 {checkShortTime && <p className="alert-danger">Your end time is less than 10 minutes!</p>}
+                                {!checkEntryTime && <p className="alert-danger">please select time!</p>}
+
                                 <form onSubmit={addTime}>
 
                                     {/*start*/}

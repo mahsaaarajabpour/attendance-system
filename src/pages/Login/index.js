@@ -10,10 +10,10 @@ function Login() {
 
     const usersInfo = useSelector((state => state.userData.info));
     const userLoginInfo = useSelector((state => state.userData.userLoginInfo));
-
-    const [tel, setTel] = useState()
     const dispatch = useDispatch();
 
+    const [tel, setTel] = useState()
+    const [isLogin,setIsLogin]=useState(true)
 
     function handleChange(event) {
         event.preventDefault();
@@ -24,12 +24,16 @@ function Login() {
         event.preventDefault();
 
         // eslint-disable-next-line
-        const x = usersInfo.filter(item => {
+        const loginInfo = usersInfo.filter(item => {
             if (item.tel === tel) {
                 return item
             }
         })
-        dispatch(userLogin(x[0]))
+        if (loginInfo.length>0) {
+            setIsLogin(true)
+            dispatch(userLogin(loginInfo[0]))
+        }
+        else setIsLogin(false)
     }
 
     function logOut() {
@@ -47,6 +51,7 @@ function Login() {
                                 <p className="login-logo">Timepickers</p>
                                 <p>sign in to your account</p>
                             </div>
+                            {!isLogin && <p className="alert-danger">you are not already registered.</p>}
                             <div className="center">
                                 <form onSubmit={login}>
                                     <div className="form-group input-group">

@@ -19,6 +19,11 @@ const userDataReducer = (state = initialState, action) => {
                 ...state,
                 userLoginInfo: action.value
             }
+        case actionTypes.LOGOUT:
+            return {
+                ...state,
+                userLoginInfo: []
+            }
     }
     return state
 }

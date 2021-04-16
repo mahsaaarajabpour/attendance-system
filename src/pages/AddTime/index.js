@@ -3,6 +3,8 @@ import PageHOC from "../../components/HOC";
 import './addTime.css'
 import {useDispatch, useSelector} from "react-redux";
 import {addTask} from "../../redux/userTasks/tasks.action";
+import {NavLink} from "react-router-dom";
+import {userLogOut} from "../../redux/userData/userData.actions";
 
 function AddTime() {
 
@@ -12,10 +14,6 @@ function AddTime() {
     const dispatch = useDispatch();
     const userInfo = useSelector(state => state.userData.info)
     const userLoginInfo = useSelector(state => state.userData.userLoginInfo)
-
-    // useEffect(()=>{
-    //     console.log('userLoginInfo',userLoginInfo)
-    // },[userLoginInfo])
 
     const Hours = () => {
         let x = [];
@@ -97,15 +95,12 @@ function AddTime() {
                 break
 
             case 'minute':
-                // let d = new Date();
                 if (timeType === 'start') {
-                    // d.setHours(timeInfo.startTime, event);
                     return setTimeInfo({
                         ...timeInfo,
                         startTime: timeInfo.startTime + ':' + event
                     })
                 } else if (timeType === 'end') {
-                    // d.setHours(timeInfo.endTime, event);
                     return setTimeInfo({
                         ...timeInfo,
                         endTime: timeInfo.endTime + ':' + event
@@ -139,25 +134,29 @@ function AddTime() {
         dispatch(addTask(z))
         emptyInput()
     }
+    function logOut(){
+        dispatch(userLogOut())
+    }
 
     return (
         <PageHOC>
             <div className="add-time">
                 <div className="contents col-md-8">
-                    <div className='card output'>
+                    <div className="card output">
                         <p><b>Local Time: </b>{currentTime}</p>
                     </div>
-                    {userInfo.length === 0 ?
+                    {userLoginInfo.length === 0 ?
                         <div className="row m-5 p-2 border time-login-panel">
                             <div className="col-md-12 ">
                                 <p className="row justify-content-center">you should login first </p>
-                                <a className="row justify-content-center btn btn-secondary ml-3" href="/">login</a>
+                                <NavLink className="row justify-content-center btn btn-secondary ml-3" to="/">login</NavLink>
                             </div>
                         </div>
                         :
-                        <div className='card' id='given'><p>
-                            <b>Hi, {userLoginInfo.name} !</b>
-                        </p>
+                        <div className="card" id="given">
+                            <p><b className="mr-3">Hi, {userLoginInfo.name} !</b>
+                            <NavLink className="p-link" to="/login" onClick={logOut}>Do you want to logout?</NavLink>
+                            </p>
                             <form onSubmit={addTime}>
 
                                 {/*start*/}

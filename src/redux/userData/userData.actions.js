@@ -11,6 +11,11 @@ export const userLogin = (value) => {
         dispatch(saveInfo(value, actionTypes.LOGIN))
     }
 }
+export const userLogOut = () => {
+    return {
+        type:actionTypes.LOGOUT
+    }
+}
 
 export const saveInfo = (value, type) => {
     return {

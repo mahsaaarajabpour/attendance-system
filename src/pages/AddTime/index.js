@@ -6,6 +6,7 @@ import {addTask} from "../../redux/userTasks/tasks.action";
 import {NavLink} from "react-router-dom";
 import {userLogOut} from "../../redux/userData/userData.actions";
 import moment from "moment";
+import SubmitTask from "./SubmitTask";
 
 function AddTime() {
 
@@ -18,6 +19,7 @@ function AddTime() {
     const [tasks, setTasks] = useState([])
     const [checkShortTime, setCheckShortTime] = useState(false)
     const [checkEntryTime, setCheckEntryTime] = useState(true)
+    const [checkAddTask,setCheckAddTask]=useState(false)
 
     const Hours = () => {
         let x = [];
@@ -75,6 +77,7 @@ function AddTime() {
     }
 
     function handleItems(event, eventType, timeType) {
+        console.log('12',event,eventType)
         // eslint-disable-next-line default-case
         switch (eventType) {
             case 'remotely':
@@ -171,10 +174,14 @@ function AddTime() {
                 let value = tasks.concat(task)
                 setTasks(value)
                 dispatch(addTask(task))
+                setCheckAddTask(true)
                 emptyInput()
                 setTimeInfo({remote: 'no', description: ''})
             }
-        } else setCheckEntryTime(false)
+        } else {
+            setCheckEntryTime(false)
+            setCheckAddTask(false)
+        }
     }
 
     function logOut() {
@@ -215,73 +222,80 @@ function AddTime() {
                                 {checkShortTime && <p className="alert-danger">Your end time is less than 10 minutes!</p>}
                                 {!checkEntryTime && <p className="alert-danger">please select time!</p>}
 
-                                <form onSubmit={addTime}>
+                                <SubmitTask addTime={addTime}
+                                            handleItems={(event,eventType,timeType)=>handleItems(event,eventType,timeType)}
+                                            Hours={Hours()}
+                                            Minutes={Minutes()}
 
-                                    {/*start*/}
-                                    <div className="form-row justify-content-center timePickers start-time">
-                                        <select className="custom-select col-md-4 col-sm-12 picker"
-                                                id="startHourSelector"
-                                                onChange={event => handleItems(event.target.value, 'start', 'hour')}>
-                                            <option>Hour</option>
-                                            {Hours().map((value) =>
-                                                <option key={value} value={value}>{value}</option>
-                                            )}
-                                        </select>
-                                        <select className="custom-select col-md-4 col-sm-12 picker"
-                                                id="startMinuteSelector"
-                                                onChange={event => handleItems(event.target.value, 'start', 'minute')}>
-                                            <option defaultValue="Minute">Minute</option>
-                                            {Minutes().map((value) =>
-                                                <option key={value} value={value}>{value}</option>
-                                            )}
-                                        </select>
-                                    </div>
+                                />
 
-                                    {/*end*/}
-                                    <div className="form-row justify-content-center timePickers end-time">
-                                        <select className="custom-select col-md-4 col-sm-12 picker"
-                                                id="endHourSelector"
-                                                onChange={event => handleItems(event.target.value, 'end', 'hour')}>
-                                            <option defaultValue="Hour">Hour</option>
-                                            {Hours().map((value) =>
-                                                <option key={value} value={value}>{value}</option>
-                                            )}
-                                        </select>
-                                        <select className="custom-select col-md-4 col-sm-12 picker"
-                                                id="endMinuteSelector"
-                                                onChange={event => handleItems(event.target.value, 'end', 'minute')}>
-                                            <option>Minute</option>
-                                            {Minutes().map((value) =>
-                                                <option key={value} value={value}>{value}</option>
-                                            )}
-                                        </select>
-                                    </div>
+                                {/*<form onSubmit={addTime}>*/}
 
-                                    {/*description*/}
-                                    <div className="form-row justify-content-center timePickers">
-                                <textarea className="form-control col-md-8 picker"
-                                          rows="3"
-                                          placeholder="description"
-                                          required
-                                          onChange={event => handleItems(event, 'description')}
-                                ></textarea>
-                                    </div>
+                                {/*    /!*start*!/*/}
+                                {/*    <div className="form-row justify-content-center timePickers start-time">*/}
+                                {/*        <select className="custom-select col-md-4 col-sm-12 picker"*/}
+                                {/*                id="startHourSelector"*/}
+                                {/*                onChange={event => handleItems(event.target.value, 'start', 'hour')}>*/}
+                                {/*            <option>Hour</option>*/}
+                                {/*            {Hours().map((value) =>*/}
+                                {/*                <option key={value} value={value}>{value}</option>*/}
+                                {/*            )}*/}
+                                {/*        </select>*/}
+                                {/*        <select className="custom-select col-md-4 col-sm-12 picker"*/}
+                                {/*                id="startMinuteSelector"*/}
+                                {/*                onChange={event => handleItems(event.target.value, 'start', 'minute')}>*/}
+                                {/*            <option defaultValue="Minute">Minute</option>*/}
+                                {/*            {Minutes().map((value) =>*/}
+                                {/*                <option key={value} value={value}>{value}</option>*/}
+                                {/*            )}*/}
+                                {/*        </select>*/}
+                                {/*    </div>*/}
 
-                                    {/*remote*/}
-                                    <div className="form-row justify-content-center timePickers">
-                                        <label>
-                                            <span className="label-text">Do you working remotely?</span>
-                                            <input type="checkbox"
-                                                   name="remotely"
-                                                   id="remote"
-                                                   onChange={event => handleItems(event, 'remotely')}
-                                            />
-                                        </label>
-                                    </div>
+                                {/*    /!*end*!/*/}
+                                {/*    <div className="form-row justify-content-center timePickers end-time">*/}
+                                {/*        <select className="custom-select col-md-4 col-sm-12 picker"*/}
+                                {/*                id="endHourSelector"*/}
+                                {/*                onChange={event => handleItems(event.target.value, 'end', 'hour')}>*/}
+                                {/*            <option defaultValue="Hour">Hour</option>*/}
+                                {/*            {Hours().map((value) =>*/}
+                                {/*                <option key={value} value={value}>{value}</option>*/}
+                                {/*            )}*/}
+                                {/*        </select>*/}
+                                {/*        <select className="custom-select col-md-4 col-sm-12 picker"*/}
+                                {/*                id="endMinuteSelector"*/}
+                                {/*                onChange={event => handleItems(event.target.value, 'end', 'minute')}>*/}
+                                {/*            <option>Minute</option>*/}
+                                {/*            {Minutes().map((value) =>*/}
+                                {/*                <option key={value} value={value}>{value}</option>*/}
+                                {/*            )}*/}
+                                {/*        </select>*/}
+                                {/*    </div>*/}
 
-                                    {/*submit*/}
-                                    <button type="submit" className="btn btn-secondary m-1">Submit</button>
-                                </form>
+                                {/*    /!*description*!/*/}
+                                {/*    <div className="form-row justify-content-center timePickers">*/}
+                                {/*<textarea className="form-control col-md-8 picker"*/}
+                                {/*          rows="3"*/}
+                                {/*          placeholder="description"*/}
+                                {/*          required*/}
+                                {/*          onChange={event => handleItems(event, 'description')}*/}
+                                {/*></textarea>*/}
+                                {/*    </div>*/}
+
+                                {/*    /!*remote*!/*/}
+                                {/*    <div className="form-row justify-content-center timePickers">*/}
+                                {/*        <label>*/}
+                                {/*            <span className="label-text">Do you working remotely?</span>*/}
+                                {/*            <input type="checkbox"*/}
+                                {/*                   name="remotely"*/}
+                                {/*                   id="remote"*/}
+                                {/*                   onChange={event => handleItems(event, 'remotely')}*/}
+                                {/*            />*/}
+                                {/*        </label>*/}
+                                {/*    </div>*/}
+
+                                {/*    /!*submit*!/*/}
+                                {/*    <button type="submit" className="btn btn-secondary m-1">Submit</button>*/}
+                                {/*</form>*/}
                             </div>
                     }
                 </div>

@@ -1,16 +1,36 @@
 import React from "react";
 
 function SubmitTask(props){
+
+    const Hours = () => {
+        let x = [];
+        for (let i = 1; i <= 24; i++) {
+            if (i < 10) x.push('0' + i)
+            else x.push(i)
+        }
+        return x
+    }
+
+    const Minutes = () => {
+        let x = [];
+        for (let i = 0; i <= 60; i++) {
+            if (i < 10) x.push('0' + i)
+            else x.push(i)
+        }
+        return x
+    }
+
     return (
         <form onSubmit={props.addTime}>
 
             {/*start*/}
-            <div className="form-row justify-content-center timePickers start-time">
+            <label htmlFor="startTime">start time:</label>
+            <div className="form-row justify-content-center timePickers start-time" id="startTime">
                 <select className="custom-select col-md-4 col-sm-12 picker"
                         id="startHourSelector"
                         onChange={event => props.handleItems(event.target.value, 'start', 'hour')}>
                     <option>Hour</option>
-                    {props.Hours.map((value) =>
+                    {Hours().map((value) =>
                         <option key={value} value={value}>{value}</option>
                     )}
                 </select>
@@ -18,19 +38,20 @@ function SubmitTask(props){
                         id="startMinuteSelector"
                         onChange={event => props.handleItems(event.target.value, 'start', 'minute')}>
                     <option defaultValue="Minute">Minute</option>
-                    {props.Minutes.map((value) =>
+                    {Minutes().map((value) =>
                         <option key={value} value={value}>{value}</option>
                     )}
                 </select>
             </div>
 
             {/*end*/}
-            <div className="form-row justify-content-center timePickers end-time">
+            <label htmlFor="endTime">end time:</label>
+            <div className="form-row justify-content-center timePickers end-time" id="endTime">
                 <select className="custom-select col-md-4 col-sm-12 picker"
                         id="endHourSelector"
                         onChange={event => props.handleItems(event.target.value, 'end', 'hour')}>
                     <option defaultValue="Hour">Hour</option>
-                    {props.Hours.map((value) =>
+                    {Hours().map((value) =>
                         <option key={value} value={value}>{value}</option>
                     )}
                 </select>
@@ -38,7 +59,7 @@ function SubmitTask(props){
                         id="endMinuteSelector"
                         onChange={event => props.handleItems(event.target.value, 'end', 'minute')}>
                     <option>Minute</option>
-                    {props.Minutes.map((value) =>
+                    {Minutes().map((value) =>
                         <option key={value} value={value}>{value}</option>
                     )}
                 </select>
